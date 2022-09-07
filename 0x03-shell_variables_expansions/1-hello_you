@@ -1,0 +1,2 @@
+#!/bin/bsh
+alias ls='echo Hello $USER'
