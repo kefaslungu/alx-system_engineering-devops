@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $"BEST=SCHOOL"
+printf $"Best=School\nBest=School"

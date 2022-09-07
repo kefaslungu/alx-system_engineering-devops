@@ -1,2 +1,2 @@
 #!/bin/bash
-d='env' | $d | cat > kefas.txt | cat kefas.txt | cat kefas.txt
+alias d='env' | $d | cat > kefas.txt | cat kefas.txt
