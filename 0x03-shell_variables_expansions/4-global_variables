@@ -1,2 +1,2 @@
 #!/bin/bash
-printenv
+d='env' | $d | cat > kefas.txt | cat kefas.txt | cat kefas.txt
