@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-#This script uses a while loop that runs as long as the value of the `count` variable is less than or equal to 10. The loop starts by initializing the `count` variable to 1 and then, on each iteration, it increases the value of `count` by 1 using the `count=$((count + 1))` command. Inside the loop, the script uses the `echo` command to display the string "Best School" to the terminal. 
-count=1
+# Display "best School" 10 times, whith the while loop
 
-while [ $count -le 10 ]
+counter=1
+while [ $counter -le 10 ]
 do
-  echo "Best School"
-  count=$((count + 1))
+    echo "best School"
+    ((counter++))
 done

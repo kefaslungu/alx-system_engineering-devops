@@ -1,10 +1,9 @@
-#/usr/bin/env bash
-#This script uses an `until` loop that runs as long as the value of the `count` variable is less than or equal to 10. 
+#!/usr/bin/env bash
+# Display "best School" 10 times
 
-count=1
-
-until [ $count -gt 10 ]
+counter=1
+until [ $counter -gt 10 ]
 do
-  echo "Best School"
-  count=$((count + 1))
+    echo "best School"
+    ((counter++))
 done
