@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 # This script display a list of running processes
-ps auxf
+
+processes=$(ps -e -o pid,ppid,user,cmd --forest)
+
+# Print the processes
+echo "$processes"

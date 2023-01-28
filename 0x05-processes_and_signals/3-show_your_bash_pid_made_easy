@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 #script that displays the PID, along with the process name
-pgrep -l bash
+pids=$(pgrep -d " " -x bash)
+
+for pid in $pids; do
+    proc_name=$(cat /proc/$pid/comm)
+  # Display the PID and process name
+  echo "PID: $pid, Process Name: $proc_name"
+done
