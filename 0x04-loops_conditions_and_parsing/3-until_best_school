@@ -1,9 +1,3 @@
 #!/usr/bin/env bash
-# Display "best School" 10 times
-
-counter=1
-until [ $counter -gt 10 ]
-do
-    echo "best School"
-    ((counter++))
-done
+# Script that displays Best School 10 times
+i=1; until [ $i -ge 11 ]; do echo "Best School"; ((i++)); done
