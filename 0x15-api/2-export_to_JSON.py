@@ -1,37 +1,34 @@
 #!/usr/bin/python3
 """
-Using https://jsonplaceholder.typicode.com
 gathers data from API and exports it to JSON file
-Implemented using recursion
 """
 import json
-import re
 import requests
 import sys
 
-
-API = "https://jsonplaceholder.typicode.com"
 """REST API url"""
 
+if len(sys.argv) < 2:
+    print("Please provide an employee ID")
+    sys.exit(1)
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        if re.fullmatch(r'\d+', sys.argv[1]):
-            id = int(sys.argv[1])
-            user_res = requests.get('{}/users/{}'.format(API, id)).json()
-            todos_res = requests.get('{}/todos'.format(API)).json()
-            user_name = user_res.get('username')
-            todos = list(filter(lambda x: x.get('userId') == id, todos_res))
-            with open("{}.json".format(id), 'w') as json_file:
-                user_data = list(map(
-                    lambda x: {
-                        "task": x.get("title"),
-                        "completed": x.get("completed"),
-                        "username": user_name
-                    },
-                    todos
-                ))
-                user_data = {
-                    "{}".format(id): user_data
-                }
-                json.dump(user_data, json_file)
+EMPLOYEE_ID = sys.argv[1]
+API_URL = f"https://jsonplaceholder.typicode.com/users/{EMPLOYEE_ID}/todos"
+
+response = requests.get(API_URL)
+tasks = response.json()
+
+tasks_by_user = {}
+for task in tasks:
+    if task['completed']:
+        task_status = 'completed'
+    else:
+        task_status = 'not completed'
+    tasks_by_user.setdefault(task['userId'], []).append({
+        'task': task['title'],
+        'completed': task_status,
+        'username': task['username']
+    })
+
+with open(f"{EMPLOYEE_ID}.json", 'w') as f:
+    json.dump(tasks_by_user, f)

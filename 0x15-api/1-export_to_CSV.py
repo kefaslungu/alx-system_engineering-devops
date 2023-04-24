@@ -6,6 +6,8 @@ import csv
 import requests
 import sys
 
+"""REST API url"""
+
 if len(sys.argv) < 2:
     sys.exit("Usage: python3 1-export_to_CSV.py <employee_id>")
 
@@ -19,7 +21,7 @@ task_data = requests.get(url_tasks).json()
 
 employee_name = user_data['name']
 filename = "{}.csv".format(employee_id)
-
+# create the file
 with open(filename, 'w', newline='') as csvfile:
     fieldnames = ['USER_ID', 'USERNAME', 'TASK_COMPLETED_STATUS', 'TASK_TITLE']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
