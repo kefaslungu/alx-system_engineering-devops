@@ -1,33 +1,44 @@
 #!/usr/bin/python3
 """
-Using https://jsonplaceholder.typicode.com
-gathers data from API and exports it to JSON file
-Implemented using recursion
+Exports all tasks from all employees in JSON format.
 """
+
 import json
 import requests
+from sys import argv
 
 
-API = "https://jsonplaceholder.typicode.com"
-"""REST API url"""
+if __name__ == "__main__":
+    # Set the API endpoint and fetch the JSON data
+    api_url = "https://jsonplaceholder.typicode.com/"
+    tasks = requests.get(api_url + "todos").json()
+    users = requests.get(api_url + "users").json()
 
+    # Convert the user data into a dictionary for easy access
+    users_dict = {user['id']: user['username'] for user in users}
 
-if __name__ == '__main__':
-    users_res = requests.get('{}/users'.format(API)).json()
-    todos_res = requests.get('{}/todos'.format(API)).json()
-    users_data = {}
-    for user in users_res:
-        id = user.get('id')
-        user_name = user.get('username')
-        todos = list(filter(lambda x: x.get('userId') == id, todos_res))
-        user_data = list(map(
-            lambda x: {
-                'username': user_name,
-                'task': x.get('title'),
-                'completed': x.get('completed')
-            },
-            todos
-        ))
-        users_data['{}'.format(id)] = user_data
-    with open('todo_all_employees.json', 'w') as file:
-        json.dump(users_data, file)
+    # Create a dictionary to store tasks for each user
+    tasks_by_user = {}
+
+    # Populate the tasks_by_user dictionary
+    for task in tasks:
+        # Get the user ID for the current task
+        user_id = task['userId']
+
+        # Add the current task to the user's list of tasks
+        if user_id in tasks_by_user:
+            tasks_by_user[user_id].append({
+                'task': task['title'],
+                'completed': task['completed'],
+                'username': users_dict[user_id]
+            })
+        else:
+            tasks_by_user[user_id] = [{
+                'task': task['title'],
+                'completed': task['completed'],
+                'username': users_dict[user_id]
+            }]
+
+    # Save the tasks_by_user dictionary to a JSON file
+    with open("todo_all_employees.json", "w") as json_file:
+        json.dump(tasks_by_user, json_file)
